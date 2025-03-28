@@ -1,11 +1,14 @@
+from a8t_tools.bus.producer import TaskProducer
+from a8t_tools.db.transactions import AsyncDbTransaction
 from dependency_injector import containers, providers
 from passlib.context import CryptContext
 
-from a8t_tools.bus.producer import TaskProducer
-from a8t_tools.db.transactions import AsyncDbTransaction
-
 from app.domain.tron.core.commands import TronCreateCommand
-from app.domain.tron.core.query import TronCredentialsQuery, TronManagementListQuery, TronListQuery
+from app.domain.tron.core.query import (
+    TronCredentialsQuery,
+    TronListQuery,
+    TronManagementListQuery,
+)
 from app.domain.tron.core.repositories import TronRepository
 
 
@@ -15,8 +18,6 @@ class TronContainer(containers.DeclarativeContainer):
     task_producer = providers.Dependency(instance_of=TaskProducer)
 
     secret_key = providers.Dependency(instance_of=str)
-
-    private_key = providers.Dependency(instance_of=str)
 
     public_key = providers.Dependency(instance_of=str)
 

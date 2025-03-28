@@ -1,12 +1,7 @@
 import asyncio
-import gzip
-import lzma
-from contextlib import contextmanager
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
-from a8t_tools.storage.local_storage import LocalStorageBackend
-from celery import Celery
 from freezegun import freeze_time
 
 import app.domain

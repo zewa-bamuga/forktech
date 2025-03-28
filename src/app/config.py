@@ -1,36 +1,16 @@
 import secrets
 from typing import Any
 
-from dotenv import load_dotenv
 from passlib.context import CryptContext
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-load_dotenv()
 
 
 class ApiSettings(BaseSettings):
     prefix: str = Field(default="/api")
     cors_origins: list[str] = Field(default=["*"])
     show_docs: bool = Field(default=True)
-    auth_uri: str = Field(default="/api/v1/users/authentication/oauth")
     model_config = SettingsConfigDict(env_prefix="API_")
-
-
-class SecuritySettings(BaseSettings):
-    pwd_context: CryptContext = CryptContext(
-        schemes=["bcrypt"],
-        deprecated="auto",
-        bcrypt__rounds=10,
-    )
-    secret_key: str = Field(default=secrets.token_urlsafe(32))
-    private_key: str = Field(default=..., description="Private RSA key")
-    public_key: str = Field(default=..., description="Public RSA key")
-
-    access_expiration_min: int = Field(default=15)
-    refresh_expiration_min: int = Field(default=60 * 24 * 7)
-
-    model_config = SettingsConfigDict(env_prefix="SECURITY_")
 
 
 class SentrySettings(BaseSettings):
@@ -53,28 +33,10 @@ class DatabaseSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="DB_")
 
 
-class MessageQueueSettings(BaseSettings):
-    broker_uri: str | None = Field(default=None)
-    model_config = SettingsConfigDict(env_prefix="MQ_")
-
-
-class TasksSettings(BaseSettings):
-    params: dict[str, Any] = {
-        "activate_user": {"time_limit": 7200},
-        "reminder_news": {"time_limit": 7200},
-    }
-    schedules: list[dict[str, Any]] = []
-
-    model_config = SettingsConfigDict(env_prefix="TASKS_")
-
-
 class Settings(BaseSettings):
     api: ApiSettings = ApiSettings()
-    security: SecuritySettings = SecuritySettings()
     sentry: SentrySettings = SentrySettings()
     db: DatabaseSettings = DatabaseSettings()
-    mq: MessageQueueSettings = MessageQueueSettings()
-    tasks: TasksSettings = TasksSettings()
 
     class Config:
         extra = "allow"

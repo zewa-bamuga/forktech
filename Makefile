@@ -1,43 +1,16 @@
-release:
-	cp -f ./deploy/compose/develop/docker-compose.yml docker-compose.yml && \
-	cp -n .env.example .env && \
-	docker-compose up -d --build --remove-orphans
-
 install:
 	poetry install
 
 test:
 	docker-compose -f ./deploy/compose/test/docker-compose.yml --project-directory . run --rm fastapi_test  pytest -vv --cov=app --cov-branch --cov-report term-missing --cov-fail-under=70
 
-test-key:
-	docker-compose -f ./deploy/compose/test/docker-compose.yml --project-directory . run --rm fastapi_test  pytest -vv --cov=app --cov-branch --cov-report term-missing --cov-fail-under=70 -k $(name)
-
-test-lf:
-	docker-compose -f ./deploy/compose/test/docker-compose.yml --project-directory . run --rm fastapi_test  pytest -vv --cov=app --cov-branch --cov-report term-missing --cov-fail-under=70 --lf
-
-test-rebuild:
-	docker-compose -f ./deploy/compose/test/docker-compose.yml --project-directory . build
-
-test-reset:
-	docker-compose -f ./deploy/compose/test/docker-compose.yml --project-directory . down --volumes
-
 run:
 	cp -f ./deploy/compose/local/docker-compose.yml docker-compose.yml && \
 		cp -n .env.example .env && \
 		docker-compose up -d --build --remove-orphans
 
-run-mac:
-	cp -f ./deploy/compose/local/docker-compose.yml docker-compose.yml && \
-	cp -f .env.example .env && \
-	docker-compose up -d --build --remove-orphans
-
 stop:
 	docker-compose down
-
-stop-all:
-	docker-compose -f ./deploy/compose/test/docker-compose.yml --project-directory . down || true && \
-	docker-compose -f ./deploy/compose/local/docker-compose.yml --project-directory . down || true && \
-	docker-compose -f ./deploy/compose/develop/docker-compose.yml --project-directory . down
 
 logs:
 	docker-compose logs -f

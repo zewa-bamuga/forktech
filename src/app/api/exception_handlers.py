@@ -5,7 +5,7 @@ from fastapi import Request
 from pydantic import BaseModel
 from starlette.responses import JSONResponse
 
-from app.api.schemas import AuthApiError, SimpleApiError
+from app.api.schemas import SimpleApiError
 from app.domain.common import enums, exceptions
 
 
@@ -38,6 +38,5 @@ def typed_exception_handler(
 
 registry = [
     (exceptions.GenericApiError, typed_exception_handler(SimpleApiError)),
-    (exceptions.AuthError, typed_exception_handler(AuthApiError)),
     (Exception, universal_exception_handler),
 ]

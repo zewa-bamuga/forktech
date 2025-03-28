@@ -39,23 +39,15 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
 
-  celery-main: &background
-    <<: *core
-    command: /start-celery-worker.sh main_queue 1
-    labels:
-      - "traefik.enable=false"
-
-  celery-beat:
-    <<: *background
-    command: /start-celery-beat.sh
-
   db-init:
-    <<: *background
+    <<: *core
     depends_on:
       - postgres
     restart: "no"
     command: /start-db-init.sh
     ports: [ ]
+    labels:
+      - "traefik.enable=false"
 
   postgres:
     image: postgres:latest

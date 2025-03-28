@@ -1,21 +1,7 @@
-from collections.abc import AsyncIterator, Callable
+from collections.abc import Callable
 
 from a8t_tools.db import pagination, sorting
-from a8t_tools.security.tokens import override_user_token
-from fastapi import Depends, Query
-from fastapi.security import OAuth2PasswordBearer
-
-
-def user_token_dep_factory(
-    reusable_oauth2: OAuth2PasswordBearer,
-) -> Callable[[str | None], AsyncIterator[None]]:
-    async def user_token(
-        token: str | None = Depends(reusable_oauth2),
-    ) -> AsyncIterator[None]:
-        async with override_user_token(token or ""):
-            yield
-
-    return user_token
+from fastapi import Query
 
 
 def get_skip_limit_pagination_dep(

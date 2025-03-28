@@ -3,10 +3,9 @@ import functools
 from collections.abc import Callable
 from typing import Any
 
-from a8t_tools.db.exceptions import DatabaseError
-
-from loguru import logger
 import typer
+from a8t_tools.db.exceptions import DatabaseError
+from loguru import logger
 
 import app.domain
 from app.containers import Container
@@ -42,6 +41,7 @@ async def noop() -> None:
     pass
 
 
+# Для тестов
 @typer_app.command()
 @async_to_sync
 async def create_tron(

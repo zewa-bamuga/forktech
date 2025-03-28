@@ -1,6 +1,5 @@
 import pytest
 
-from app.domain.tron.core import schemas
 from tests import factories, utils
 
 
@@ -14,7 +13,7 @@ class TestTron:
         response = await self.client.post(
             "/api/tron/v1/create",
             json=dict(
-                address="test_adress",
+                address="TZHF6a17t1wWYBvzunaatrq1WbdR9sixaj",
             ),
         )
         assert response.status_code == 200, response.json()

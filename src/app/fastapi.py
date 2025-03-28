@@ -1,13 +1,11 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
-from fastapi.security import OAuth2PasswordBearer
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from starlette.middleware.cors import CORSMiddleware
 
 import app
 import app.domain
 from app.api import endpoints, exception_handlers
-from app.api.deps import user_token_dep_factory
 from app.config import Settings
 from app.containers import Container
 
@@ -19,11 +17,6 @@ def create_fastapi_app(project_name: str, version: str, description: str) -> Fas
 
     config: Settings = Settings(**container.config())
 
-    reusable_oauth2 = OAuth2PasswordBearer(
-        tokenUrl=config.api.auth_uri,
-        auto_error=False,
-    )
-
     fastapi_app = FastAPI(
         title=project_name,
         version=version,
@@ -33,7 +26,6 @@ def create_fastapi_app(project_name: str, version: str, description: str) -> Fas
         if config.api.show_docs
         else None,
         container=container,
-        dependencies=[Depends(user_token_dep_factory(reusable_oauth2))],
         default_response_class=ORJSONResponse,
     )
 

@@ -3,7 +3,7 @@ import decimal
 import uuid
 
 import sqlalchemy as sa
-from sqlalchemy import Column, Integer, String, orm, Numeric
+from sqlalchemy import Column, Integer, Numeric, String, orm
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 
@@ -26,27 +26,12 @@ class Base:
 class Tron(Base):
     __tablename__ = "tron"
 
-    address = Column(
-        String(34),
-        unique=True,
-        nullable=True,
-        index=True
-    )
+    address = Column(String(34), unique=True, nullable=True, index=True)
 
-    bandwidth = Column(
-        Integer,
-        default=0,
-        nullable=True
-    )
+    bandwidth = Column(Integer, default=0, nullable=True)
 
-    energy = Column(
-        Integer,
-        default=0,
-        nullable=True
-    )
+    energy = Column(Integer, default=0, nullable=True)
 
     balance_trx = Column(
-        Numeric(20, 6),
-        default=decimal.Decimal('0.000000'),
-        nullable=True
+        Numeric(20, 6), default=decimal.Decimal("0.000000"), nullable=True
     )

@@ -1,8 +1,4 @@
-# Service for the Department of Educational Programs
-
-A project for a fast api backend with react admin.
-
-An example project for fastapi backend with react admin.
+# Terms of reference for the Forktech company
 
 ## Run locally
 
@@ -24,8 +20,12 @@ or
 	docker-compose up -d
 ```
 
+### Running tests
+```shell script
+	make test
+```
+
 ### Useful Tips
 
-- use http://localhost to access web UI
-- use http://rabbitmq.localhost to access rabbitmq dashboard (see credentials in .env or .env.example)
+- use http://localhost:80/api/docs to access web Swagger
 - use `make logs` to see logs
